@@ -1,0 +1,3 @@
+module Minisculus
+  # Your code goes here...
+end
