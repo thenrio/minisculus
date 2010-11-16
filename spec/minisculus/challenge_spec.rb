@@ -7,19 +7,26 @@ module Challenge
   def self.base
     'http://minisculus.edendevelopment.co.uk'
   end
-  
-  def get(page)
+
+  def get_json(page)
     response = RestClient.get("#{base}/#{page}", {:accept => :json})
     Yajl::Parser.new.parse(response)
   end
-  module_function :get
+  module_function :get_json
 end
 
 describe Challenge do
-  describe "#get" do
-    it 'should get in json' do
-       response = Challenge.get('start')
-       assert {response.class == Hash}
+  describe "#get_json" do
+    it 'should get a json hash' do
+       response = Challenge.get_json('start')
+       assert {response['reference-url'] == '/questions/14f7ca5f6ff1a5afb9032aa5e533ad95.html'}
     end
   end
+  
+  describe '#show' do
+    it 'should show the page under reference-url token' do
+      
+    end
+  end
+  
 end
