@@ -8,10 +8,10 @@ describe Minisculus::Question do
     end
   end
   
-  describe '.headers' do
+  describe '.default_params' do
     it 'should set accept and content type as json' do
-      assert {Minisculus::Question.headers['Accept'] == 'application/json'}
-      assert {Minisculus::Question.headers['Content-Type'] == 'application/json'}
+      assert {Minisculus::Question.default_params[:headers]['Accept'] == 'application/json'}
+      assert {Minisculus::Question.default_params[:headers]['Content-Type'] == 'application/json'}
     end
   end
   
@@ -20,13 +20,13 @@ describe Minisculus::Question do
     
     it 'get page from minisculus site' do
       url, message = "oh", "ha"
-      mock(Typhoeus::Request).get('http://minisculus.edendevelopment.co.uk/1', :headers => Minisculus::Question.headers) {
+      mock(Typhoeus::Request).get(question.uri, question.params) {
         "{\"reference-url\":\"#{url}\",\"question\":\"#{message}\"}"
       }
 
       question.read()
 
-      assert {question.content_url == 'oh'}
+      assert {question.instructions == 'oh'}
       assert {question.message == 'ha'}
     end
   end
@@ -34,13 +34,13 @@ describe Minisculus::Question do
   describe '#answer' do
     let(:question) {
       q = Minisculus::Question.new('/234')
-      q.content_url = 'oh'; q.message = 'ha'
+      q.instructions = 'oh'; q.message = 'ha'
       q
     }
     
     it 'puts to minisculus site, as json, transformed message using given block' do
       content = '{"answer":"ha"}'
-      mock(Typhoeus::Request).put(question.uri, :body => content, :headers => Minisculus::Question.headers) {
+      mock(Typhoeus::Request).put(question.uri, question.params.merge(:body => content)) {
         Typhoeus::Response.new(:code => 303)
       }
       question.answer {message}

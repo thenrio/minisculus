@@ -13,16 +13,17 @@ module Minisculus
       end
     end
     
-    attr_accessor :uri, :content_url, :message
+    attr_accessor :uri, :params, :instructions, :message
     def initialize(uri)
       uri = uri[1..-1] if uri[0] == '/'
+      self.params = Question.default_params
       self.uri = uri
     end
     
     def read
-      s = Typhoeus::Request.get(uri, :headers => headers)
+      s = Typhoeus::Request.get(uri, params)
       hash = Yajl::Parser.new.parse(s)
-      self.content_url = hash['reference-url']
+      self.instructions = hash['reference-url']
       self.message = hash['question']
       self
     end
@@ -30,7 +31,7 @@ module Minisculus
     def answer(&block)
       answer = self.instance_eval(&block) if block
       content = Yajl::Encoder.encode({'answer' => answer})
-      response = Typhoeus::Request.put(uri, :body => content, :headers => headers)
+      response = Typhoeus::Request.put(uri, params.merge(:body => content))
       case response.code
       when 303
         Question.new(response.headers_hash['Location'])
@@ -39,16 +40,12 @@ module Minisculus
       end
     end
 
-    def self.headers
-      {'Accept' => 'application/json', 'Content-Type' => 'application/json'}
+    def self.default_params
+      {:headers => {'Accept' => 'application/json', 'Content-Type' => 'application/json'}}
     end
 
     def uri
       "http://minisculus.edendevelopment.co.uk/#{@uri}"
-    end
-    
-    def headers
-      self.class.headers
     end
   end
 end
