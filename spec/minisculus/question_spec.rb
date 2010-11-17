@@ -43,11 +43,11 @@ describe Minisculus::Question do
     describe 'when response is redirect' do
       it 'should return a new question' do
         mock(Typhoeus::Request).put(anything, anything) {
-          Typhoeus::Response.new(:code => 303, :headers => {'Location' => '/next-question'})
+          Typhoeus::Response.new(:code => 303, :headers_hash => {'Location' => '/next-question'})
         }
-        next_question = question.answer {}
+        next_question = question.answer
         assert {next_question.class == Minisculus::Question}
-        assert {next_question.uri == '/next-question'}
+        assert {next_question.uri =~ /\/next-question$/}
       end
     end
   end
