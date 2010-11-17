@@ -26,7 +26,7 @@ describe Minisculus::Question do
 
       question.read()
 
-      assert {question.instructions == 'oh'}
+      assert {question.instructions == "#{Minisculus::Question.eden}/oh"}
       assert {question.message == 'ha'}
     end
   end
@@ -34,7 +34,7 @@ describe Minisculus::Question do
   describe '#answer' do
     let(:question) {
       q = Minisculus::Question.new('/234')
-      q.instructions = 'oh'; q.message = 'ha'
+      q.message = 'ha'
       q
     }
     

@@ -3,7 +3,7 @@ require 'yajl'
 
 module Minisculus
   class Question
-    # errors
+    # error
     class NotAcceptable < StandardError
       attr_reader :code
       def initialize(code=406, message=nil)
@@ -13,6 +13,7 @@ module Minisculus
       end
     end
     
+    # core
     attr_accessor :uri, :params, :instructions, :message
     def initialize(uri)
       uri = uri[1..-1] if uri[0] == '/'
@@ -40,12 +41,20 @@ module Minisculus
       end
     end
 
+    def uri
+      "#{Question.eden}/#{@uri}"
+    end
+    
+    def instructions
+      "#{Question.eden}/#{@instructions}"
+    end
+
     def self.default_params
       {:headers => {'Accept' => 'application/json', 'Content-Type' => 'application/json'}}
     end
 
-    def uri
-      "http://minisculus.edendevelopment.co.uk/#{@uri}"
+    def self.eden
+      'http://minisculus.edendevelopment.co.uk'
     end
   end
 end
