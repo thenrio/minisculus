@@ -10,15 +10,21 @@ module Minisculus
     end
     
     def read
-      s = RestClient.get("http://minisculus.edendevelopment.co.uk#{title}", :accept => :json)
+      s = RestClient.get(question_url, :accept => :json)
       hash = Yajl::Parser.new.parse(s)
       self.content_url = hash['reference-url']
       self.message = hash['question']
     end
     
     def respond(&block)
-      content = yield message
-      RestClient.put("http://minisculus.edendevelopment.co.uk#{title}", content, :accept => :json, :content_type => :json)
+      answer = yield message
+      content = Yajl::Encoder.encode({'answer' => answer})
+      RestClient.put(question_url, content, :accept => :json, :content_type => :json)
+    end
+    
+    private
+    def question_url
+      "http://minisculus.edendevelopment.co.uk#{title}"
     end
   end
 end
@@ -47,13 +53,13 @@ describe Minisculus::Question do
       q
     }
     
-    it 'put to minisculus site' do
+    it 'put to minisculus site, as json, transformed message using given block' do
       url = 'http://minisculus.edendevelopment.co.uk/start'
-      content = 'code'
+      content = '{"answer":"code"}'
       mock(RestClient).put(url, content, :accept => :json, :content_type => :json) {
         '???'
       }
-      question.respond {|message| 'code'}
+      response = question.respond {|message| 'code'}
     end
   end
 end
