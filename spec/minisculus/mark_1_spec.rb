@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'minisculus/mark1'
+require 'minisculus/mark_1'
 
 
 describe Engines::Mark_I do
