@@ -3,14 +3,14 @@ require 'minisculus/mark1'
 
 
 describe Engines::Mark_I do
-  describe '#code' do
+  describe '#encode' do
     let(:engine) {Engines::Mark_I.new}
     
     it {
-      assert {engine.code('ac') == 'fh'}
+      assert {engine.encode('ac') == 'fh'}
     }
     it {
-      assert {engine.code(' ') == '4'}
+      assert {engine.encode(' ') == '4'}
     }
   end
 end
