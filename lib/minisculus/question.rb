@@ -16,7 +16,7 @@ module Minisculus
     # core
     attr_accessor :uri, :params, :instructions, :message
     def initialize(uri)
-      uri = uri[1..-1] if uri[0] == '/'
+      uri = squeeze_leading_slash(uri)
       self.params = Question.default_params
       self.uri = uri
     end
@@ -24,7 +24,7 @@ module Minisculus
     def read
       s = Typhoeus::Request.get(uri, params).body
       hash = Yajl::Parser.new.parse(s)
-      self.instructions = hash['reference-url']
+      self.instructions = squeeze_leading_slash(hash['reference-url'])
       self.message = hash['question']
       self
     end
@@ -55,6 +55,12 @@ module Minisculus
 
     def self.eden
       'http://minisculus.edendevelopment.co.uk'
+    end
+    
+    private
+    def squeeze_leading_slash(s)
+      s = s[1..-1] if s[0] == '/'
+      s
     end
   end
 end
