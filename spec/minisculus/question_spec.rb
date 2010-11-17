@@ -16,7 +16,7 @@ module Minisculus
       self.message = hash['question']
     end
     
-    def respond(&block)
+    def answer(&block)
       answer = yield message
       content = Yajl::Encoder.encode({'answer' => answer})
       RestClient.put(question_url, content, :accept => :json, :content_type => :json)
@@ -31,11 +31,11 @@ end
 
 describe Minisculus::Question do
   describe '#read' do
-    let(:question) {Minisculus::Question.new('/start')}
+    let(:question) {Minisculus::Question.new('/14f7ca5f6ff1a5afb9032aa5e533ad95')}
     
     it 'get page from minisculus site' do
       url, message = "oh", "ha"
-      mock(RestClient).get('http://minisculus.edendevelopment.co.uk/start', :accept => :json) {
+      mock(RestClient).get('http://minisculus.edendevelopment.co.uk/14f7ca5f6ff1a5afb9032aa5e533ad95', :accept => :json) {
         "{\"reference-url\":\"#{url}\",\"question\":\"#{message}\"}"
       }
 
@@ -46,7 +46,7 @@ describe Minisculus::Question do
     end
   end
   
-  describe '#respond' do
+  describe '#answer' do
     let(:question) {
       q = Minisculus::Question.new('/start')
       q.content_url = 'oh'; q.message = 'ha'
@@ -59,7 +59,8 @@ describe Minisculus::Question do
       mock(RestClient).put(url, content, :accept => :json, :content_type => :json) {
         '???'
       }
-      response = question.respond {|message| 'code'}
+      response = question.answer {|message| 'code'}
+      assert {response == '???'}
     end
   end
 end
