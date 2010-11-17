@@ -5,8 +5,11 @@ module Minisculus
   class Question
     # errors
     class NotAcceptable < StandardError
-      def initialize(message=nil)
-        super(message || 'No message provided, check you post to correct url')
+      attr_reader :code
+      def initialize(code=406, message=nil)
+        message ||= 'No message provided, check you post to correct url'
+        super("#{message} (code : #{code})")
+        @code = code
       end
     end
     
@@ -32,7 +35,7 @@ module Minisculus
       when 303
         Question.new(response.headers_hash['Location'])
       else
-        raise NotAcceptable.new(response.body)
+        raise NotAcceptable.new(response.code, response.body)
       end
     end
 

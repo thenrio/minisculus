@@ -2,6 +2,12 @@ require 'spec_helper'
 require 'minisculus/question'
 
 describe Minisculus::Question do
+  describe Minisculus::Question::NotAcceptable do
+    it 'to_s should have code' do
+      assert {Minisculus::Question::NotAcceptable.new(719, 'nuked').to_s =~ /\(code : 719\)/}
+    end
+  end
+  
   describe '.headers' do
     it 'should set accept and content type as json' do
       assert {Minisculus::Question.headers['Accept'] == 'application/json'}
@@ -56,13 +62,14 @@ describe Minisculus::Question do
     describe 'when response is not accepted' do
       before do        
         mock(Typhoeus::Request).put(anything, anything) {
-          Typhoeus::Response.new(:code => 406)
+          Typhoeus::Response.new(:code => 418)
         }
       end
       it 'should raise' do
         error = rescuing {question.answer}
         assert {error.class == Minisculus::Question::NotAcceptable}
-        assert {error.message == 'No message provided, check you post to correct url'}
+        assert {error.message =~ /^No message provided, check you post to correct url/}
+        assert {error.code == 418}
       end
     end
   end
