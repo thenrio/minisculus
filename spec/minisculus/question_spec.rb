@@ -1,8 +1,8 @@
 require 'spec_helper'
-require 'restclient'
+require 'typhoeus'
 require 'yajl'
 
-module Minisculus
+module Minisculus  
   class Question
     attr_accessor :title, :content_url, :message
     def initialize(title)
@@ -10,7 +10,7 @@ module Minisculus
     end
     
     def read
-      s = RestClient.get(question_url, :accept => :json)
+      s = Typhoeus::Request.get(question_url, :headers => headers)
       hash = Yajl::Parser.new.parse(s)
       self.content_url = hash['reference-url']
       self.message = hash['question']
@@ -19,23 +19,31 @@ module Minisculus
     def answer(&block)
       answer = yield message
       content = Yajl::Encoder.encode({'answer' => answer})
-      RestClient.put(question_url, content, :accept => :json, :content_type => :json)
+      Typhoeus::Request.put(question_url, :body => content, :headers => headers)
     end
-    
+
+    def self.headers
+      {'Accept' => 'application/json', 'Content-Type' => 'application/json'}
+    end
+
     private
     def question_url
       "http://minisculus.edendevelopment.co.uk#{title}"
+    end
+    
+    def headers
+      self.class.headers
     end
   end
 end
 
 describe Minisculus::Question do
   describe '#read' do
-    let(:question) {Minisculus::Question.new('/14f7ca5f6ff1a5afb9032aa5e533ad95')}
+    let(:question) {Minisculus::Question.new('/1')}
     
     it 'get page from minisculus site' do
       url, message = "oh", "ha"
-      mock(RestClient).get('http://minisculus.edendevelopment.co.uk/14f7ca5f6ff1a5afb9032aa5e533ad95', :accept => :json) {
+      mock(Typhoeus::Request).get('http://minisculus.edendevelopment.co.uk/1', :headers => Minisculus::Question.headers) {
         "{\"reference-url\":\"#{url}\",\"question\":\"#{message}\"}"
       }
 
@@ -56,7 +64,7 @@ describe Minisculus::Question do
     it 'put to minisculus site, as json, transformed message using given block' do
       url = 'http://minisculus.edendevelopment.co.uk/start'
       content = '{"answer":"code"}'
-      mock(RestClient).put(url, content, :accept => :json, :content_type => :json) {
+      mock(Typhoeus::Request).put(url, :body => content, :headers => Minisculus::Question.headers) {
         '???'
       }
       response = question.answer {|message| 'code'}

@@ -29,13 +29,10 @@ GEM
       rake (>= 0.8.1)
     linecache19 (0.5.11)
       ruby_core_source (>= 0.1.4)
-    mime-types (1.16)
     open_gem (1.4.2)
       launchy (~> 0.3.5)
     predicated (0.2.2)
     rake (0.8.7)
-    rest-client (1.6.1)
-      mime-types (>= 1.16)
     rr (1.0.0)
     rspec (2.1.0)
       rspec-core (~> 2.1.0)
@@ -66,6 +63,7 @@ GEM
       sexp_processor (>= 3.0.5)
     spruz (0.1.5)
     thor (0.14.4)
+    typhoeus (0.2.0)
     wrong (0.4.3)
       ParseTree (~> 3.0)
       diff-lcs (~> 1.1.2)
@@ -84,9 +82,9 @@ DEPENDENCIES
   growl
   guard-rspec
   minisculus!
-  rest-client
   rr
   rspec
   ruby-debug19
+  typhoeus
   wrong
   yajl-ruby
