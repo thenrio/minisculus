@@ -27,8 +27,7 @@ module Engines
       letters[position]
     end
   end
-  
-  
+
   class Mark_I
     attr_accessor :position, :wheel
     def initialize(position=5)
