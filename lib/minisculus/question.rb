@@ -21,7 +21,7 @@ module Minisculus
     end
     
     def read
-      s = Typhoeus::Request.get(uri, params)
+      s = Typhoeus::Request.get(uri, params).body
       hash = Yajl::Parser.new.parse(s)
       self.instructions = hash['reference-url']
       self.message = hash['question']

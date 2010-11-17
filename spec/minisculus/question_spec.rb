@@ -21,7 +21,7 @@ describe Minisculus::Question do
     it 'get page from minisculus site' do
       url, message = "oh", "ha"
       mock(Typhoeus::Request).get(question.uri, question.params) {
-        "{\"reference-url\":\"#{url}\",\"question\":\"#{message}\"}"
+        Typhoeus::Response.new(:body => "{\"reference-url\":\"#{url}\",\"question\":\"#{message}\"}")
       }
 
       question.read()
