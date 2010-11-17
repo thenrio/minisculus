@@ -17,7 +17,7 @@ module Minisculus
     end
     
     def answer(&block)
-      answer = yield message
+      answer = self.instance_eval(&block)
       content = Yajl::Encoder.encode({'answer' => answer})
       response = Typhoeus::Request.put(uri, :body => content, :headers => headers)
     end

@@ -26,12 +26,11 @@ describe Minisculus::Question do
     }
     
     it 'put to minisculus site, as json, transformed message using given block' do
-      url = 'http://minisculus.edendevelopment.co.uk/234'
-      content = '{"answer":"code"}'
-      mock(Typhoeus::Request).put(url, :body => content, :headers => Minisculus::Question.headers) {
+      content = '{"answer":"ha"}'
+      mock(Typhoeus::Request).put(question.uri, :body => content, :headers => Minisculus::Question.headers) {
         Typhoeus::Response.new(:code => 303)
       }
-      response = question.answer {|message| 'code'}
+      response = question.answer {message}
       assert {response.code == 303}
     end
   end
