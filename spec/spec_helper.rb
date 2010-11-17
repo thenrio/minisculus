@@ -1,20 +1,14 @@
 require 'rubygems'
-require 'spork'
+require "bundler/setup"
 
-Spork.prefork do
-  # Loading more in this block will cause your tests to run faster. However, 
-  # if you change any configuration or code from libraries loaded here, you'll
-  # need to restart spork for it take effect.
-  require "bundler/setup"
+Bundler.require(:test)
+require 'wrong/adapters/rspec'
 
-  Bundler.require(:test)
-  require 'wrong/adapters/rspec'
-
-  $LOAD_PATH.unshift(File.expand_path('../lib', __FILE__))
+RSpec.configure do |config|
+  config.mock_with(:rr)
 end
 
-Spork.each_run do
-end
+$LOAD_PATH.unshift(File.expand_path('../lib', __FILE__))
 
   
 
