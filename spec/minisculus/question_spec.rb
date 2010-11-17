@@ -41,13 +41,28 @@ describe Minisculus::Question do
     end
     
     describe 'when response is redirect' do
-      it 'should return a new question' do
+      before do
         mock(Typhoeus::Request).put(anything, anything) {
           Typhoeus::Response.new(:code => 303, :headers_hash => {'Location' => '/next-question'})
         }
+      end
+      it 'should return a new question' do
         next_question = question.answer
         assert {next_question.class == Minisculus::Question}
         assert {next_question.uri =~ /\/next-question$/}
+      end
+    end
+    
+    describe 'when response is not accepted' do
+      before do        
+        mock(Typhoeus::Request).put(anything, anything) {
+          Typhoeus::Response.new(:code => 406)
+        }
+      end
+      it 'should raise' do
+        error = rescuing {question.answer}
+        assert {error.class == Minisculus::Question::NotAcceptable}
+        assert {error.message == 'No message provided, check you post to correct url'}
       end
     end
   end

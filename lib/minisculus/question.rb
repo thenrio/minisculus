@@ -3,6 +3,13 @@ require 'yajl'
 
 module Minisculus
   class Question
+    # errors
+    class NotAcceptable < StandardError
+      def initialize(message=nil)
+        super(message || 'No message provided, check you post to correct url')
+      end
+    end
+    
     attr_accessor :uri, :content_url, :message
     def initialize(uri)
       uri = uri[1..-1] if uri[0] == '/'
@@ -24,6 +31,8 @@ module Minisculus
       case response.code
       when 303
         Question.new(response.headers_hash['Location'])
+      else
+        raise NotAcceptable.new(response.body)
       end
     end
 
