@@ -23,14 +23,14 @@ module Cypher
       end
       
       def encode(secret)
-        _encode(secret, @devices.dup)
+        map_reduce(secret, @devices.dup, :encode)
       end
 
       private
-      def _encode(secret, devices)
+      def map_reduce(secret, devices, method)
         device = devices.shift
         if device
-          _encode(device.encode(secret), devices)
+          map_reduce(device.send(method, secret), devices, method)
         else
           secret
         end
