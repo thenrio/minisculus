@@ -11,7 +11,7 @@ module Engines
     end
     
     def encode(secret)
-      _encode(secret, @marks)
+      _encode(secret, @marks.dup)
     end
     
     def _encode(secret, marks)
