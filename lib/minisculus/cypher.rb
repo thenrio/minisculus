@@ -17,23 +17,30 @@ module Cypher
       end      
     end
     
+    class Will_III
+      def initialize(charset=Engines::Wheel.letters)
+        @wheel = Engines::Wheel.new(charset)
+      end
+      
+      def encode(secret)
+        secret
+      end
+    end
+    
     class Serial
       def initialize(devices)
         @devices = devices
       end
       
       def encode(secret)
-        map_reduce(secret, @devices.dup, :encode)
+        map_reduce(@devices.dup, :encode, secret)
       end
 
       private
-      def map_reduce(secret, devices, method)
+      def map_reduce(devices, method, secret)
         device = devices.shift
-        if device
-          map_reduce(device.send(method, secret), devices, method)
-        else
-          secret
-        end
+        return secret unless device
+        map_reduce(devices, method, device.send(method, secret))
       end
     end
   end
