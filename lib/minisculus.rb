@@ -1,3 +1,2 @@
-module Minisculus
-  # Your code goes here...
-end
+require 'minisculus/question'
+require 'minisculus/engines'

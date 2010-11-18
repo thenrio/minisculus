@@ -17,9 +17,16 @@ describe Minisculus::Cypher::SelfTurningWheel do
     end
     
     context 'two chars' do
-      it 'second is shift of 2 * "index of previous in charset"' do
-        will.secret = '11'
+      it 'second is shift of 2 * "index of first secret letter in charset"' do
+        will.secret = '10'
         assert {will.encode('11') == '13'}
+      end      
+    end
+    
+    context 'three chars' do
+      it 'third is shift of 2 * "index of second secret letter in charset"' do
+        will.secret = '100'
+        assert {will.encode('111') == '131'}
       end      
     end
     
