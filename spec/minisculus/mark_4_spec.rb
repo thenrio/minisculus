@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'minisculus/engines'
-describe Engines.mark_IV do
-  let(:engine) {Engines.mark_IV}
+describe 'Mark_IV' do
+  let(:engine) {Engines.mark_IV([4,7])}
 
   describe '#encode' do
     it 'encodes "The" as "JMl"' do

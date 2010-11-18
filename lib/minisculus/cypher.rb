@@ -1,19 +1,23 @@
 require 'minisculus/wheel'
+require 'forwardable'
 
 module Minisculus
   module Cypher
     class ShiftingWheel
+      extend Forwardable
+      def_delegators :@wheel, :charset
+      
       attr_accessor :offset
       def initialize(offset=5, charset=Minisculus::DEFAULT_CHARSET)
         self.offset = offset
         @wheel = Minisculus::Wheel.new(charset)
       end
       
-      def encode(secret, offset=self.offset)
-        secret.chars.inject('') {|acc,c| acc << crypt(c, offset)}
+      def encode(informations, offset=self.offset)
+        informations.chars.inject('') {|acc,c| acc << crypt(c, offset)}
       end
-      def decode(secret)
-        encode(secret, -offset)
+      def decode(informations)
+        encode(informations, -offset)
       end
       
       protected
@@ -23,22 +27,24 @@ module Minisculus
     end
     
     class SelfTurningWheel < ShiftingWheel
+      attr_accessor :secret
       def initialize(charset=Minisculus::DEFAULT_CHARSET)
         super(0, charset)
       end
       
-      def encode(secret)
+      def encode(informations)
         self.offset = 0
-        secret.chars.inject('') {|acc, c|
+        informations.chars.inject('') {|acc, c|
           acc << crypt(c, offset)
-          turn(acc[-1])
+          turn(acc.length - 1)
           acc
         }
       end
       
       private
-      def turn(char)
-        self.offset += @wheel.charset.index(char) * 2
+      def turn(index)
+        offset = (charset.index(@secret[index]) * 2) 
+        self.offset = (self.offset+offset)%charset.length
       end
     end
     
@@ -48,6 +54,7 @@ module Minisculus
       end
       
       def encode(secret)
+        (devices = @devices.dup).each {|d| d.secret = secret if d.respond_to?(:'secret=')}
         map_reduce(@devices.dup, :encode, secret)
       end
 
