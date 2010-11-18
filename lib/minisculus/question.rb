@@ -31,8 +31,10 @@ module Minisculus
     
     def answer(&block)
       answer = self.instance_eval(&block) if block
-      content = Yajl::Encoder.encode({'answer' => answer})
-      response = Typhoeus::Request.put(uri, params.merge(:body => content))
+      body = Yajl::Encoder.encode({'answer' => answer})
+      
+      puts "#{self} answers #{body}" if params[:verbose]
+      response = Typhoeus::Request.put(uri, params.merge(:body => body))
       case response.code
       when 303
         Question.new(response.headers_hash['Location'])

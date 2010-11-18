@@ -17,7 +17,7 @@ module Cypher
       end      
     end
     
-    class Will_III
+    class SelfTurningWheel
       def initialize(charset=Engines::Wheel.letters)
         @wheel = Engines::Wheel.new(charset)
       end

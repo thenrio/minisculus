@@ -5,7 +5,7 @@ module Engines
     Cypher::Device::ShiftingWheel.new(offset)
   end
   
-  def mark_II(offsets=[2, 5])
+  def mark_II(offsets=[9, 3])
     devices = offsets.inject([]) {|acc, o| 
       o = (acc.length+1)*o*(acc.length.even? ? 1 : -1)
       acc << Cypher::Device::ShiftingWheel.new(o)
@@ -15,7 +15,7 @@ module Engines
   end
   
   def mark_IV(offsets=[4,7])
-    Cypher::Device::Serial.new([mark_II(offsets), Cypher::Device::Will_III.new])
+    Cypher::Device::Serial.new([mark_II(offsets), Cypher::Device::SelfTurningWheel.new])
   end
   
   ['I', 'II', 'IV'].each do |version|
