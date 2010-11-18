@@ -4,9 +4,9 @@ module Cypher
   module Device
     class ShiftingWheel
       attr_accessor :offset
-      def initialize(offset=5, charset=Engines::Wheel.letters)
+      def initialize(offset=5, charset=Minisculus::Wheel.letters)
         self.offset = offset
-        @wheel = Engines::Wheel.new(charset)
+        @wheel = Minisculus::Wheel.new(charset)
       end
       
       def encode(secret, offset=self.offset)
@@ -23,7 +23,7 @@ module Cypher
     end
     
     class SelfTurningWheel < ShiftingWheel
-      def initialize(charset=Engines::Wheel.letters)
+      def initialize(charset=Minisculus::Wheel.letters)
         super(0, charset)
       end
       
