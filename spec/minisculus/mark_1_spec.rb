@@ -1,11 +1,10 @@
 require 'spec_helper'
-require 'minisculus/mark_1'
+require 'minisculus/engines'
 
 
-describe Engines::Mark_I do
+describe Engines.mark_I do
+  let(:engine) {Engines.mark_I}
   describe '#encode' do
-    let(:engine) {Engines::Mark_I.new}
-    
     it {
       assert {engine.encode('ac') == 'fh'}
     }
@@ -15,8 +14,6 @@ describe Engines::Mark_I do
   end
   
   describe '#decode' do
-    let(:engine) {Engines::Mark_I.new}
-    
     it 'read an encoded string' do
       secret = 'blue'
       assert {engine.decode(engine.encode(secret)) == secret}

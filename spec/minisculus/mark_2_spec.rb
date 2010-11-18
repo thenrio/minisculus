@@ -1,10 +1,9 @@
 require 'spec_helper'
-require 'minisculus/mark_2'
+require 'minisculus/engines'
 
-describe Engines::Mark_II do
+describe Engines.mark_II do
+  let(:engine) {Engines.mark_II}
   describe '#encode' do
-    let(:engine) {Engines::Mark_II.new()}
-    
     it 'should encode abc in STU !!' do
       engine.encode('abc').should == 'STU'
     end
