@@ -1,9 +1,9 @@
 require 'spec_helper'
 require 'minisculus/cypher'
 
-describe Cypher::Device::SelfTurningWheel do
+describe Minisculus::Cypher::SelfTurningWheel do
   CHARSET = %w(0 1 2 3)
-  let(:will) {Cypher::Device::SelfTurningWheel.new(CHARSET)}
+  let(:will) {Minisculus::Cypher::SelfTurningWheel.new(CHARSET)}
   it 'has initial position 0' do
     assert {will.offset == 0}
   end

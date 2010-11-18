@@ -1,7 +1,7 @@
 require 'minisculus/wheel'
 
-module Cypher
-  module Device
+module Minisculus
+  module Cypher
     class ShiftingWheel
       attr_accessor :offset
       def initialize(offset=5, charset=Minisculus::Wheel.letters)
