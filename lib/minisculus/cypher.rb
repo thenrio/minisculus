@@ -4,7 +4,7 @@ module Minisculus
   module Cypher
     class ShiftingWheel
       attr_accessor :offset
-      def initialize(offset=5, charset=Minisculus::Wheel.letters)
+      def initialize(offset=5, charset=Minisculus::DEFAULT_CHARSET)
         self.offset = offset
         @wheel = Minisculus::Wheel.new(charset)
       end
@@ -23,7 +23,7 @@ module Minisculus
     end
     
     class SelfTurningWheel < ShiftingWheel
-      def initialize(charset=Minisculus::Wheel.letters)
+      def initialize(charset=Minisculus::DEFAULT_CHARSET)
         super(0, charset)
       end
       
@@ -38,7 +38,7 @@ module Minisculus
       
       private
       def turn(char)
-        self.offset += @wheel.letters.index(char) * 2
+        self.offset += @wheel.charset.index(char) * 2
       end
     end
     
