@@ -16,5 +16,25 @@ module Cypher
         encode(secret, -offset)
       end      
     end
+    
+    class Serial
+      def initialize(devices)
+        @devices = devices
+      end
+      
+      def encode(secret)
+        _encode(secret, @devices.dup)
+      end
+
+      private
+      def _encode(secret, devices)
+        device = devices.shift
+        if device
+          _encode(device.encode(secret), devices)
+        else
+          secret
+        end
+      end
+    end
   end
 end
