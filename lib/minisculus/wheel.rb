@@ -8,6 +8,10 @@ module Engines
       "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
       ".", ",", "?", "!", "'", "\"", " "
     ].freeze
+    def self.letters
+      @@letters
+    end
+
     attr_accessor :letters, :position
     def initialize(letters = @@letters)
       self.letters = letters

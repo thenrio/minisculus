@@ -24,10 +24,14 @@ module Cypher
       
       def encode(secret)
         secret.chars.inject('') {|acc, c|
-          offset = (acc.empty? ? 0 : @wheel.letters.index(acc[-1]) * 2)
-          c = @wheel.move(c).shift(offset).read
+          c = @wheel.move(c).shift(offset(acc[-1])).read unless acc.empty?
           acc << c
         }
+      end
+      
+      private
+      def offset(char)
+        @wheel.letters.index(char) * 2
       end
     end
     
