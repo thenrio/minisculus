@@ -4,8 +4,11 @@ describe Engines::Mark_IV do
   let(:engine) {Engines::Mark_IV.new([2, 5])}
 
   describe '#encode' do
-    it 'encodes a as Mark_II' do
+    it 'encodes \'a\' as Mark_II' do
       engine.encode('a').should == 'S'
+    end
+    it 'encodes \'ab\' as Mark_II' do
+      engine.encode('ab').should == 'SG'
     end
   end
 end

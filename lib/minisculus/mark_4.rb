@@ -6,7 +6,7 @@ module Engines
     end
     
     def encode(secret)
-      @mark_II.encode(secret)
+      secret = @mark_II.encode(secret)
     end
   end
 end
