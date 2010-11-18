@@ -23,7 +23,11 @@ module Cypher
       end
       
       def encode(secret)
-        secret
+        secret.chars.inject('') {|acc, c|
+          offset = (acc.empty? ? 0 : @wheel.letters.index(acc[-1]) * 2)
+          c = @wheel.move(c).shift(offset).read
+          acc << c
+        }
       end
     end
     
