@@ -34,11 +34,5 @@ describe Minisculus::Cypher::SelfTurningWheel do
       will.secret = '1'
       assert {will.encode('1') == will.encode('1')}
     end
-    
-    it 'encodes JXU as JMl' do
-      engine = Minisculus::Cypher::SelfTurningWheel.new
-      engine.secret = 'The'
-      assert {engine.encode('JXU') == 'JMl'}
-    end
   end
 end
