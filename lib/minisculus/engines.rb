@@ -1,7 +1,7 @@
 require 'minisculus/cypher'
 
 module Engines
-  def mark_I(offset=5)
+  def mark_I(offset=6)
     Cypher::Device::ShiftingWheel.new(offset)
   end
   
