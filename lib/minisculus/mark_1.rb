@@ -1,17 +1,13 @@
-require 'minisculus/wheel'
+require 'minisculus/cypher'
+require 'forwardable'
 
 module Engines
   class Mark_I
-    attr_accessor :position, :wheel
-    def initialize(position=5)
-      self.position = position
-      self.wheel = Wheel.new
+    def initialize(offset=5)
+      @cypher = Cypher::Device::ShiftingWheel.new(offset)
     end
-    def encode(secret, position = self.position)
-      secret.chars.inject('') {|acc,c| acc << wheel.move(c).shift(position).read}
-    end
-    def decode(secret)
-      encode(secret, -self.position)
-    end
+    
+    extend Forwardable
+    def_delegators :@cypher, :encode, :decode
   end
 end
