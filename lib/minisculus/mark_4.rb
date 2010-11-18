@@ -11,7 +11,6 @@ module Engines
       secret.chars.inject([]) {|acc, c|
         c = @wheel.move(c).shift(@wheel.letters.index(acc.last) * 2).read if acc.last
         acc << c
-        acc
       }.join('')
     end
   end
