@@ -1,8 +1,9 @@
 require 'spec_helper'
 require 'minisculus/cypher'
 
+CHARSET = %w(0 1 2 3)
+
 describe Minisculus::Cypher::ShiftingWheel do
-  CHARSET = %w(0 1 2 3)
   let(:cypher) {Minisculus::Cypher::ShiftingWheel.new(1, CHARSET)}
   
   it 'crypt shift offset char to right' do
@@ -18,11 +19,7 @@ end
 
 
 describe Minisculus::Cypher::SelfTurningWheel do
-  CHARSET = %w(0 1 2 3)
   let(:will) {will = Minisculus::Cypher::SelfTurningWheel.new(CHARSET)}
-  it 'has initial position 0' do
-    assert {will.offset == 0}
-  end
   
   describe "crypt(char, secret)" do
     it 'returns char when crypted word is empty' do

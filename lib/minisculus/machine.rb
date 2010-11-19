@@ -29,13 +29,6 @@ module Minisculus
       @devices.inject(char) {|c, device|
         device.crypt(c, secret)
       }      
-    end
-    
-    private
-    def map_reduce(devices, method, secret)
-      device = devices.shift
-      return secret unless device
-      map_reduce(devices, method, device.send(method, secret))
-    end       
+    end      
   end
 end

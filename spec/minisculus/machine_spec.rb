@@ -11,7 +11,6 @@ module Cypher
 end
 
 describe Minisculus::Machine do
-  CHARSET = %w(0 1 2 3)
   let(:cypher) {Object.new.extend(Cypher)}
   let(:machine) {Minisculus::Machine.new([cypher])}
   

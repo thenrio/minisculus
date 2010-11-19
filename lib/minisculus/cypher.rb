@@ -22,9 +22,12 @@ module Minisculus
       end 
     end
     
-    class SelfTurningWheel < ShiftingWheel
+    class SelfTurningWheel
+      extend Forwardable
+      def_delegators :@wheel, :charset
+      
       def initialize(charset=Minisculus::DEFAULT_CHARSET)
-        super(0, charset)
+        @wheel = Minisculus::Wheel.new(charset)
       end
       
       def crypt(c, secret)
