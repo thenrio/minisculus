@@ -32,15 +32,15 @@ module Minisculus
       
       def crypt(c, secret)
         return c if secret.empty?
-        @wheel.crypt(c, hoffset(secret))
+        @wheel.crypt(c, offset(secret))
       end
       
       def uncrypt(c, uncrypted)
         return c if uncrypted.empty?
-        @wheel.crypt(c, -hoffset(uncrypted))
+        @wheel.crypt(c, -offset(uncrypted))
       end
       
-      def hoffset(secret, i=secret.length - 1)
+      def offset(secret, i=secret.length - 1)
         charset.index(secret[i]) * 2
       end
     end
