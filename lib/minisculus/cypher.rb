@@ -57,6 +57,10 @@ module Minisculus
         map_reduce(@devices.dup, :encode, secret)
       end
 
+      def decode(cryptic)
+        'abc'
+      end
+      
       private
       def map_reduce(devices, method, secret)
         device = devices.shift
