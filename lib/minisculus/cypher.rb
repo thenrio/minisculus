@@ -21,9 +21,11 @@ module Minisculus
         encode(informations, -offset)
       end
       
-      protected
       def crypt(c, offset)
         @wheel.move(c).shift(offset).read
+      end   
+      def uncrypt(c, _uncrypted)
+        @wheel.move(c).shift(-offset).read
       end   
     end
     

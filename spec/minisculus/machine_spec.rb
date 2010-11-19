@@ -1,10 +1,7 @@
 require 'spec_helper'
 require 'minisculus/machine'
 
-module Cypher
-  def decode(head, tail, memo)
-  end
-  
+module Cypher  
   def uncrypt(c, _uncrypted)
     'X'
   end
