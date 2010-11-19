@@ -47,8 +47,5 @@ module Minisculus
         self.offset = (charset.index(@secret[index]) * 2) 
       end
     end
-    
-    
-    Serial = Minisculus::Machine
   end
 end

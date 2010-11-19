@@ -2,7 +2,7 @@ require 'minisculus/cypher'
 
 module Engines
   def mark_I(offset=6)
-    Minisculus::Cypher::Serial.new([Minisculus::Cypher::ShiftingWheel.new(offset)])
+    Minisculus::Machine.new([Minisculus::Cypher::ShiftingWheel.new(offset)])
   end
   
   def mark_II(offsets=[9, 3])
@@ -11,11 +11,11 @@ module Engines
       acc << Minisculus::Cypher::ShiftingWheel.new(o)
       acc
     }
-    Minisculus::Cypher::Serial.new(devices)    
+    Minisculus::Machine.new(devices)    
   end
   
   def mark_IV(offsets=[4,7])
-    Minisculus::Cypher::Serial.new([mark_II(offsets), Minisculus::Cypher::SelfTurningWheel.new])
+    Minisculus::Machine.new([mark_II(offsets), Minisculus::Cypher::SelfTurningWheel.new])
   end
   
   ['I', 'II', 'IV'].each do |version|
