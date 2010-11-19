@@ -22,6 +22,8 @@ end
 require 'benchmark'
 Benchmark.bm do |bm|
   bm.report do 
-     pp crack(code_2_crack)
+     combinations = crack(code_2_crack)
+     puts "there are #{combinations.values.inject(0) {|acc,a| acc+a.size}} combinations, for #{combinations.size} keys ... do you believe it ?"
+     pp combinations
   end
 end
