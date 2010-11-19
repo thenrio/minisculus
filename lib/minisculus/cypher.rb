@@ -44,6 +44,8 @@ module Minisculus
         }
       end
       
+      
+      
       private
       def turn(index)
         self.offset = (charset.index(@secret[index]) * 2) 
