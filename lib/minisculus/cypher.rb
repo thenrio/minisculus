@@ -15,17 +15,14 @@ module Minisculus
       end
       
       def encode(informations, offset=self.offset)
-        informations.chars.inject('') {|acc,c| acc << crypt(c, offset)}
+        informations.chars.inject('') {|acc,c| acc << @wheel.crypt(c, offset)}
       end
       def decode(informations)
         encode(informations, -offset)
       end
-      
-      def crypt(c, offset)
-        @wheel.crypt(c, offset)
-      end   
+ 
       def uncrypt(c, _uncrypted)
-        crypt(c, -offset)
+        @wheel.crypt(c, -offset)
       end 
     end
     
@@ -38,10 +35,14 @@ module Minisculus
       def encode(informations)
         self.offset = 0
         informations.chars.inject('') {|acc, c|
-          acc << crypt(c, offset)
+          acc << @wheel.crypt(c, offset)
           turn(acc.length - 1)
           acc
         }
+      end
+      
+      def crypt(c, secret)
+        c
       end
       
       def uncrypt(c, uncrypted)
@@ -49,8 +50,8 @@ module Minisculus
         @wheel.crypt(c, -hoffset(uncrypted.length-1, uncrypted))
       end
       
-      def hoffset(i, uncrypted)
-        charset.index(uncrypted[i]) * 2
+      def hoffset(i, secret)
+        charset.index(secret[i]) * 2
       end
       
       private

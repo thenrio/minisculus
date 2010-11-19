@@ -36,9 +36,18 @@ describe Minisculus::Cypher::SelfTurningWheel do
     end
   end
   
+  describe "crypt(char, secret)" do
+    it 'returns char when crypted word is empty' do
+      assert {will.crypt('1', '') == '1'}
+    end
+    it 'shifts char by offset(secret)' do
+      assert {will.crypt('1', '1') == '2'}
+    end
+  end
+  
   describe "hoffset(i, uncrypted)" do
     it "it is two times index of uncrypted[i] in charset" do
-      assert {will.hoffset(0, '333') == 6}
+      assert {will.hoffset(0, '330') == 6}
     end
   end
 end
