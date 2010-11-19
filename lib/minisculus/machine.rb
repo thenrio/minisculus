@@ -10,7 +10,11 @@ module Minisculus
     end
 
     def decode(cryptic)
-      'abc'
+      cryptic.chars.inject('') {|uncyphered, char|
+        uncyphered << @devices.inject(char) {|c, device|
+          device.uncrypt(c, uncyphered)
+        }
+      }
     end
     
     private

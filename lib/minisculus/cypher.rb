@@ -3,7 +3,7 @@ require 'minisculus/machine'
 require 'forwardable'
 
 module Minisculus
-  module Cypher
+  module Cypher    
     class ShiftingWheel
       extend Forwardable
       def_delegators :@wheel, :charset
