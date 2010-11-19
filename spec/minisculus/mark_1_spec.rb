@@ -12,11 +12,4 @@ describe Engines.mark_I do
       assert {engine.encode(' ') == '4'}
     }
   end
-  
-  describe '#decode' do
-    it 'read an encoded string' do
-      secret = 'blue'
-      assert {engine.decode(engine.encode(secret)) == secret}
-    end
-  end
 end

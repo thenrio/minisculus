@@ -3,7 +3,7 @@ require 'minisculus/cypher'
 
 describe Minisculus::Cypher::ShiftingWheel do
   CHARSET = %w(0 1 2 3)
-  let(:cypher) {will = Minisculus::Cypher::ShiftingWheel.new(1, CHARSET)}
+  let(:cypher) {Minisculus::Cypher::ShiftingWheel.new(1, CHARSET)}
   
   it 'code shift offset letters to right' do
     assert {cypher.encode('013') == '120'}
@@ -36,3 +36,16 @@ describe Minisculus::Cypher::SelfTurningWheel do
     end
   end
 end
+
+describe Minisculus::Cypher::Serial do
+  CHARSET = %w(0 1 2 3)
+  let(:cypher) {mock!}
+  let(:serial) {Minisculus::Cypher::Serial.new([cypher])}
+  
+  describe "#decode" do
+    it 'will call cypher to decode each character, knowing what is decoded yet' do
+      serial.decode('12')
+    end
+  end
+end
+

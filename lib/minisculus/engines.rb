@@ -2,7 +2,7 @@ require 'minisculus/cypher'
 
 module Engines
   def mark_I(offset=6)
-    Minisculus::Cypher::ShiftingWheel.new(offset)
+    Minisculus::Cypher::Serial.new([Minisculus::Cypher::ShiftingWheel.new(offset)])
   end
   
   def mark_II(offsets=[9, 3])
