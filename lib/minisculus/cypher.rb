@@ -13,13 +13,6 @@ module Minisculus
         self.offset = offset
         @wheel = Minisculus::Wheel.new(charset)
       end
-      
-      def encode(informations, offset=self.offset)
-        informations.chars.inject('') {|acc,c| acc << @wheel.crypt(c, offset)}
-      end
-      def decode(informations)
-        encode(informations, -offset)
-      end
 
       def crypt(c, _uncrypted=nil)
         @wheel.crypt(c, offset)
@@ -30,18 +23,8 @@ module Minisculus
     end
     
     class SelfTurningWheel < ShiftingWheel
-      attr_accessor :secret
       def initialize(charset=Minisculus::DEFAULT_CHARSET)
         super(0, charset)
-      end
-      
-      def encode(informations)
-        self.offset = 0
-        informations.chars.inject('') {|acc, c|
-          acc << @wheel.crypt(c, offset)
-          turn(acc.length - 1)
-          acc
-        }
       end
       
       def crypt(c, secret)
@@ -57,12 +40,6 @@ module Minisculus
       def hoffset(secret, i=secret.length - 1)
         charset.index(secret[i]) * 2
       end
-      
-      private
-      def turn(index)
-        self.offset = (charset.index(@secret[index]) * 2) 
-      end
-      
     end
   end
 end

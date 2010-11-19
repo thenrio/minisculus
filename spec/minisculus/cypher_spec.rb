@@ -24,20 +24,6 @@ describe Minisculus::Cypher::SelfTurningWheel do
     assert {will.offset == 0}
   end
   
-  describe "#encode" do
-    context 'three chars' do
-      it 'third is shift of 2 * "index of second secret letter in charset"' do
-        will.secret = '100'
-        assert {will.encode('111') == '131'}
-      end      
-    end
-    
-    it 'encoding twice same string produce same result' do
-      will.secret = '1'
-      assert {will.encode('1') == will.encode('1')}
-    end
-  end
-  
   describe "crypt(char, secret)" do
     it 'returns char when crypted word is empty' do
       assert {will.crypt('1', '') == '1'}
