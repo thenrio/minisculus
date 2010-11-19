@@ -5,25 +5,31 @@ module Minisculus
     end
 
     def decode(cryptic)
-      cryptic.chars.inject('') {|uncyphered, c|
-        uncyphered << uncrypt(c, uncyphered)
+      cryptic.chars.inject('') {|secret, c|
+        secret << uncrypt(c, secret)
       }
     end
 
-    def uncrypt(char, uncyphered)
+    def uncrypt(char, secret)
       @devices.inject(char) {|c, device|
-        device.uncrypt(c, uncyphered)
+        device.uncrypt(c, secret)
       }      
     end
-    
-    
-    
+
     def encode(secret)
-      (devices = @devices.dup).each {|d| d.secret = secret if d.respond_to?(:'secret=')}
-      map_reduce(@devices.dup, :encode, secret)
+      processed=''
+      secret.chars.inject('') {|cryptic, c|
+        cryptic << crypt(c, processed)
+        processed << c
+        cryptic
+      }
     end
 
-
+    def crypt(char, secret)
+      @devices.inject(char) {|c, device|
+        device.crypt(c, secret)
+      }      
+    end
     
     private
     def map_reduce(devices, method, secret)
