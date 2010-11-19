@@ -1,6 +1,20 @@
 require 'spec_helper'
 require 'minisculus/cypher'
 
+describe Minisculus::Cypher::ShiftingWheel do
+  CHARSET = %w(0 1 2 3)
+  let(:cypher) {will = Minisculus::Cypher::ShiftingWheel.new(1, CHARSET)}
+  
+  it 'code shift offset letters to right' do
+    assert {cypher.encode('013') == '120'}
+  end
+  
+  it 'decode shift offset letters to left' do
+    assert {cypher.decode('120') == '013'}
+  end
+end
+
+
 describe Minisculus::Cypher::SelfTurningWheel do
   CHARSET = %w(0 1 2 3)
   let(:will) {will = Minisculus::Cypher::SelfTurningWheel.new(CHARSET)}
@@ -9,20 +23,6 @@ describe Minisculus::Cypher::SelfTurningWheel do
   end
   
   describe "#encode" do
-    context 'one char' do
-      it 'first character is the same' do
-        will.secret = '1'
-        assert {will.encode('0') == '0'}
-      end
-    end
-    
-    context 'two chars' do
-      it 'second is shift of 2 * "index of first secret letter in charset"' do
-        will.secret = '10'
-        assert {will.encode('11') == '13'}
-      end      
-    end
-    
     context 'three chars' do
       it 'third is shift of 2 * "index of second secret letter in charset"' do
         will.secret = '100'
