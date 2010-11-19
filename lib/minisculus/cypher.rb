@@ -20,8 +20,11 @@ module Minisculus
       def decode(informations)
         encode(informations, -offset)
       end
- 
-      def uncrypt(c, _uncrypted)
+
+      def crypt(c, _uncrypted=nil)
+        @wheel.crypt(c, offset)
+      end 
+      def uncrypt(c, _uncrypted=nil)
         @wheel.crypt(c, -offset)
       end 
     end

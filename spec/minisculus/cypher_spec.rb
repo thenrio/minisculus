@@ -5,13 +5,15 @@ describe Minisculus::Cypher::ShiftingWheel do
   CHARSET = %w(0 1 2 3)
   let(:cypher) {Minisculus::Cypher::ShiftingWheel.new(1, CHARSET)}
   
-  it 'code shift offset letters to right' do
-    assert {cypher.encode('013') == '120'}
+  it 'crypt shift offset char to right' do
+    assert {cypher.crypt('0') == '1'}
+    assert {cypher.crypt('3') == '0'}
   end
   
   it 'decode shift offset letters to left' do
-    assert {cypher.decode('120') == '013'}
-  end
+    assert {cypher.uncrypt('1') == '0'}
+    assert {cypher.uncrypt('0') == '3'}
+  end  
 end
 
 
