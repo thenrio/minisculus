@@ -5,6 +5,7 @@ gemspec
 
 gem 'typhoeus'
 gem 'yajl-ruby'
+gem 'launchy', :require => false
 
 group :test do
   gem 'rspec'

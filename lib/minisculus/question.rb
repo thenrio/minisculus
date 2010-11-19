@@ -60,6 +60,11 @@ module Minisculus
       'http://minisculus.edendevelopment.co.uk'
     end
     
+    def show
+      require 'launchy'
+      Launchy.open(instructions) if @instructions
+    end
+    
     private
     def squeeze_leading_slash(s)
       s = s[1..-1] if s[0] == '/'

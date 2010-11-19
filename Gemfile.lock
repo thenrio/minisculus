@@ -81,6 +81,7 @@ PLATFORMS
 DEPENDENCIES
   growl
   guard-rspec
+  launchy
   minisculus!
   rr
   rspec
