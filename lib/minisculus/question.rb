@@ -14,7 +14,7 @@ module Minisculus
     end
     
     # core
-    attr_accessor :uri, :params, :instructions, :message
+    attr_accessor :uri, :params, :instructions, :message, :code
     def initialize(uri)
       uri = squeeze_leading_slash(uri)
       self.params = Question.default_params
@@ -26,6 +26,7 @@ module Minisculus
       hash = Yajl::Parser.new.parse(s)
       self.instructions = squeeze_leading_slash(hash['reference-url'])
       self.message = hash['question']
+      self.code = hash['code']
       self
     end
     
