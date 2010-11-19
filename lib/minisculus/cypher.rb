@@ -35,9 +35,9 @@ module Minisculus
         @wheel.crypt(c, offset(secret))
       end
       
-      def uncrypt(c, uncrypted)
-        return c if uncrypted.empty?
-        @wheel.crypt(c, -offset(uncrypted))
+      def uncrypt(c, secret)
+        return c if secret.empty?
+        @wheel.crypt(c, -offset(secret))
       end
       
       def offset(secret, i=secret.length - 1)
