@@ -35,5 +35,11 @@ describe Minisculus::Cypher::SelfTurningWheel do
       assert {will.encode('1') == will.encode('1')}
     end
   end
+  
+  describe "hoffset(i, uncrypted)" do
+    it "it is two times index of uncrypted[i] in charset" do
+      assert {will.hoffset(0, '333') == 6}
+    end
+  end
 end
 

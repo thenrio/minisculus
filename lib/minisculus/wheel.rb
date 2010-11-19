@@ -27,5 +27,9 @@ module Minisculus
     def read
       charset[position]
     end
+    
+    def crypt(c, offset)
+      move(c).shift(offset).read
+    end
   end
 end

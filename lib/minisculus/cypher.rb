@@ -22,11 +22,11 @@ module Minisculus
       end
       
       def crypt(c, offset)
-        @wheel.move(c).shift(offset).read
+        @wheel.crypt(c, offset)
       end   
       def uncrypt(c, _uncrypted)
-        @wheel.move(c).shift(-offset).read
-      end   
+        crypt(c, -offset)
+      end 
     end
     
     class SelfTurningWheel < ShiftingWheel
@@ -44,12 +44,20 @@ module Minisculus
         }
       end
       
+      def uncrypt(c, uncrypted)
+        return c if uncrypted.empty?
+        @wheel.crypt(c, -hoffset(uncrypted.length-1, uncrypted))
+      end
       
+      def hoffset(i, uncrypted)
+        charset.index(uncrypted[i]) * 2
+      end
       
       private
       def turn(index)
         self.offset = (charset.index(@secret[index]) * 2) 
       end
+      
     end
   end
 end
