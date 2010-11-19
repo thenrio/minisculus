@@ -2,8 +2,8 @@ require 'spec_helper'
 require 'minisculus/engines'
 
 
-describe Engines.mark_I do
-  let(:engine) {Engines.mark_I(5)}
+describe 'Mark_I' do
+  let(:engine) {Minisculus::Engines.mark_I(5)}
   describe '#encode' do
     it {
       assert {engine.encode('ac') == 'fh'}
